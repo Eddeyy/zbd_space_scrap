@@ -11,13 +11,21 @@ INSERT INTO rank (rankname, requiredscore) VALUES ('Leader', 200);
 INSERT INTO rank (rankname, requiredscore) VALUES ('Boss', 500);
 
 INSERT INTO ship (id, maxload, maxfuel, maxvolume, load, fuel, volume, coordx, coordy, coordz) VALUES (default, 2000, 600, 5000, 200, 500, 2000, 21, 37, 60);
+INSERT INTO ship (id, maxload, maxfuel, maxvolume, load, fuel, volume, coordx, coordy, coordz) VALUES (default, 2000, 100, 5000, 100, 100, 2000, 21, 37, 60);
+INSERT INTO ship (id, maxload, maxfuel, maxvolume, load, fuel, volume, coordx, coordy, coordz) VALUES (default, 2000, 200, 5000, 400, 200, 2000, 21, 37, 60);
+INSERT INTO ship (id, maxload, maxfuel, maxvolume, load, fuel, volume, coordx, coordy, coordz) VALUES (default, 2000, 1000, 5000, 500, 1000, 2000, 21, 37, 60);
 INSERT INTO ship (id, maxload, maxfuel, maxvolume, load, fuel, volume, coordx, coordy, coordz) VALUES (default, 4000, 1000, 6000, 1000, 600, 1000, 2000, 3000, 4000);
 INSERT INTO ship (id, maxload, maxfuel, maxvolume, load, fuel, volume, coordx, coordy, coordz) VALUES (default, 1000, 1500, 700, 800, 200, 500, 1234, 8765, 9021);
 
 
 INSERT INTO ship_engine (id, state, power, shipid) VALUES (default, 'Working', 3, 1);
+INSERT INTO ship_engine (id, state, power, shipid) VALUES (default, 'Working', 3, 1);
 INSERT INTO ship_engine (id, state, power, shipid) VALUES (default, 'Stopped', 9, 2);
 INSERT INTO ship_engine (id, state, power, shipid) VALUES (default, 'Working', 1, 3);
+INSERT INTO ship_engine (id, state, power, shipid) VALUES (default, 'Stopped', 1, 3);
+INSERT INTO ship_engine (id, state, power, shipid) VALUES (default, 'Working', 3, 4);
+INSERT INTO ship_engine (id, state, power, shipid) VALUES (default, 'Working', 3, 5);
+INSERT INTO ship_engine (id, state, power, shipid) VALUES (default, 'Working', 3, 6);
 
 INSERT INTO tools (id, name, durability, energy, shipid) VALUES (default, 'Wrench', 2, 1, 3);
 INSERT INTO tools (id, name, durability, energy, shipid) VALUES (default, 'Ladder', 9, 0, 2);
