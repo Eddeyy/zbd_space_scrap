@@ -70,7 +70,7 @@ fi
 
 container_name="${image_name}_$(date "+%s")"
 volume_name="${container_name}_vol"
-local_changelog="$(pwd -W)"/changelog
+local_changelog="$(pwd)"/changelog
 
 log "Creating volume ${volume_name} for postgresql data"
 docker volume create "${volume_name}"
