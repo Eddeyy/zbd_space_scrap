@@ -38,6 +38,7 @@ BEGIN
             coordz = v_moon_row.coordz
         WHERE id = ship_id;
         PERFORM cron.unschedule(format('ship-%s-flight', ship_id));
+        
     END IF;
 
     IF v_ship_row.fuel < (c_fuel_consumption * v_ship_load/10) THEN

@@ -2,41 +2,42 @@ CREATE TABLE Employee (
   ID              BIGSERIAL NOT NULL, 
   Name            varchar(32) NOT NULL, 
   Surname         varchar(32) NOT NULL, 
-  DateOfBirth date NOT NULL, 
-  JoinDate     date NOT NULL, 
-  HeartRate    int2 NOT NULL, 
+  DateOfBirth     date NOT NULL, 
+  JoinDate        date NOT NULL, 
+  HeartRate       int2 NOT NULL, 
   ShipID          int8 NOT NULL, 
   Rank            varchar(32) NOT NULL, 
   PRIMARY KEY (ID));
 CREATE TABLE Ship (
-  ID           BIGSERIAL NOT NULL, 
-  MaxLoad   numeric(10, 2) NOT NULL, 
-  MaxFuel   numeric(10, 2) NOT NULL, 
-  MaxVolume numeric(10, 2) NOT NULL, 
-  Load       numeric(10, 2) NOT NULL, 
-  Fuel         numeric(10, 2) NOT NULL, 
-  Volume       numeric(10, 2) NOT NULL, 
-  CoordX    int4 NOT NULL, 
-  CoordY    int4 NOT NULL, 
-  CoordZ    int4 NOT NULL, 
+  ID            BIGSERIAL NOT NULL, 
+  MaxLoad       numeric(10, 2) NOT NULL, 
+  MaxFuel       numeric(10, 2) NOT NULL, 
+  MaxVolume     numeric(10, 2) NOT NULL, 
+  Load          numeric(10, 2) NOT NULL, 
+  Fuel          numeric(10, 2) NOT NULL, 
+  Volume        numeric(10, 2) NOT NULL, 
+  CoordX        int4 NOT NULL, 
+  CoordY        int4 NOT NULL, 
+  CoordZ        int4 NOT NULL, 
   PRIMARY KEY (ID));
 CREATE TABLE Scrap (
-  ID         BIGSERIAL NOT NULL, 
-  Name       varchar(16), 
-  Weight     numeric(10, 2) NOT NULL, 
-  Value      numeric(8, 2), 
-  Volume     int4, 
-  ShipID     int8 NOT NULL, 
-  EmployeeID int8 NOT NULL, 
-  MoonName   varchar(32), 
+  ID            BIGSERIAL NOT NULL, 
+  Name          varchar(16), 
+  Weight        numeric(10, 2) NOT NULL, 
+  Value         numeric(8, 2), 
+  Volume        int4, 
+  ShipID        int8, 
+  EmployeeID    int8 NOT NULL,
+  ExpeditionID  int8 NOT NULL,
+  MoonName      varchar(32), 
   PRIMARY KEY (ID));
 CREATE TABLE Moon (
   Name           varchar(32) NOT NULL, 
-  CoordX      int4 NOT NULL, 
-  CoordY      int4 NOT NULL, 
-  CoordZ      int4 NOT NULL, 
+  CoordX         int4 NOT NULL, 
+  CoordY         int4 NOT NULL, 
+  CoordZ         int4 NOT NULL, 
   Temperature    int2, 
-  DangerLevel int4, 
+  DangerLevel    int4, 
   Weather        varchar(16) NOT NULL, 
   PRIMARY KEY (Name));
 CREATE TABLE Tools (
@@ -48,12 +49,10 @@ CREATE TABLE Tools (
   PRIMARY KEY (ID));
 CREATE TABLE Expedition (
   ID                  BIGSERIAL NOT NULL, 
-  DateOfDeparture date NOT NULL, 
-  DateOfReturn    date, 
-  TotalScrap       numeric(8, 2) NOT NULL, 
+  DateOfDeparture     date NOT NULL, 
+  DateOfReturn        date, 
+  TotalScrap          numeric(8, 2), 
   ShipID              int8 NOT NULL, 
-  ScrapID             int8 NOT NULL, 
-  MoonID              int8 NOT NULL, 
   MoonName            varchar(32) NOT NULL, 
   PRIMARY KEY (ID));
 CREATE TABLE Ship_Engine (
@@ -90,6 +89,7 @@ ALTER TABLE Tools ADD CONSTRAINT FKTools894302 FOREIGN KEY (ShipID) REFERENCES S
 ALTER TABLE Expedition ADD CONSTRAINT FKExpedition353510 FOREIGN KEY (ShipID) REFERENCES Ship (ID);
 ALTER TABLE Expedition ADD CONSTRAINT FKExpedition210732 FOREIGN KEY (ScrapID) REFERENCES Scrap (ID);
 ALTER TABLE Scrap ADD CONSTRAINT FKScrap639576 FOREIGN KEY (EmployeeID) REFERENCES Employee (ID);
+ALTER TABLE Scrap ADD CONSTRAINT FKScrapExp420 FOreIGN KEY (ExpeditionID) REFERENCES Expedition (ID);
 ALTER TABLE Ship_Engine ADD CONSTRAINT FKShip_engine806708 FOREIGN KEY (ShipID) REFERENCES Ship (ID);
 ALTER TABLE Employee ADD CONSTRAINT FKEmployee873402 FOREIGN KEY (Rank) REFERENCES Rank (RankName);
 ALTER TABLE Scrap ADD CONSTRAINT FKScrap514826 FOREIGN KEY (MoonName) REFERENCES Moon (Name);
@@ -99,4 +99,3 @@ ALTER TABLE Employee_Expedition ADD CONSTRAINT FKEmployee_E487929 FOREIGN KEY (E
 ALTER TABLE Employee_Expedition ADD CONSTRAINT FKEmployee_E230357 FOREIGN KEY (ExpeditionID) REFERENCES Expedition (ID);
 ALTER TABLE Material_Scrap ADD CONSTRAINT FKMaterial_S903034 FOREIGN KEY (MaterialName) REFERENCES Material (Name);
 ALTER TABLE Material_Scrap ADD CONSTRAINT FKMaterial_S933359 FOREIGN KEY (ScrapID) REFERENCES Scrap (ID);
-

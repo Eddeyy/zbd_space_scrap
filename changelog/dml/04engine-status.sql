@@ -3,7 +3,7 @@ RETURNS TRIGGER
 LANGUAGE 'plpgsql'
 AS $FUNCTION$
 BEGIN
-    IF(ceil(random() * 10) - 1 > 0) THEN
+    IF(ceil(random() * 100) - 1 > 0) THEN
         RETURN NEW;
     END IF;
     
