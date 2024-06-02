@@ -84,3 +84,18 @@ BEGIN
   RETURN OLD;
 END
 $FUNCTION$;
+
+CREATE OR REPLACE FUNCTION recalculate_exp()
+RETURNS TRIGGER
+LANGUAGE 'plpgsql'
+AS $FUNCTION$
+DECLARE
+  c_employee CURSOR FOR SELECT * 
+                        FROM Employee em 
+                        JOIN Expedition ex 
+                        ON ex.ShipID = em.ShipID
+                        WHERE ex.ID = OLD.ID; 
+BEGIN
+
+END
+$FUNCTION$;
