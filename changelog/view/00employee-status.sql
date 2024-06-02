@@ -5,6 +5,7 @@ CREATE VIEW EMPLOYEE_STATUS AS
             E.SURNAME, 
             E.RANK, 
             E.HEARTRATE, 
+            E.HEALTH,
             E.SHIPID AS SHIP, 
             COALESCE(
                 EXP.MOONNAME,
