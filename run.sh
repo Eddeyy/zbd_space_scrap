@@ -85,5 +85,5 @@ docker volume create "${volume_name}"
 log "Created"
 
 log "Starting ${container_name}"
-docker run -p 5342:5432 -v "${local_changelog}":/docker-entrypoint-initdb.d --name "${container_name}" -v "${volume_name}":/var/lib/postgresql/data -d "${image_name}"
+docker run -p 5560:5432 -v "${local_changelog}":/docker-entrypoint-initdb.d --name "${container_name}" -v "${volume_name}":/var/lib/postgresql/data -d "${image_name}"
 log "Done"

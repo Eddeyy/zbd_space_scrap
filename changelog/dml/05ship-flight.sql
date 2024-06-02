@@ -38,7 +38,8 @@ BEGIN
             coordz = v_moon_row.coordz
         WHERE id = ship_id;
         PERFORM cron.unschedule(format('ship-%s-flight', ship_id));
-        
+        PERFORM start_excavation(ship_id);
+        RETURN;
     END IF;
 
     IF v_ship_row.fuel < (c_fuel_consumption * v_ship_load/10) THEN
@@ -51,7 +52,7 @@ BEGIN
         END IF;
     END LOOP; 
 
-    v_rev_sqrt_of_vec = 1/SQRT(x_dist*x_dist + y_dist*y_dist + y_dist*y_dist);
+    v_rev_sqrt_of_vec = 1/(SQRT(x_dist*x_dist + y_dist*y_dist + y_dist*y_dist) + 0.1);
 
     x_unit_vec := v_rev_sqrt_of_vec*x_dist;
     y_unit_vec := v_rev_sqrt_of_vec*y_dist;
@@ -84,7 +85,7 @@ BEGIN
         RETURN FALSE;
     END IF;
 
-    PERFORM cron.schedule(format('ship-%s-flight', ship_id), '* * * * *', format('SELECT * FROM fly_ship_in_direction_of(%s, ''%s'')', ship_id, moon_name));
+    PERFORM cron.schedule(format('ship-%s-flight', ship_id), '5 seconds', format('SELECT * FROM fly_ship_in_direction_of(%s, ''%s'')', ship_id, moon_name));
     RETURN TRUE;
 END
 $FUNCTION$;
