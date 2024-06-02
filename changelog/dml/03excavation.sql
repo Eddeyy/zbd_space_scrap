@@ -84,11 +84,19 @@ BEGIN
   IF v_event = 0 THEN
     RAISE NOTICE 'employee found scrap';
     PERFORM generate_scrap_for_employee(employee_id);
-  ELSIF v_event = 1 THEN
-    RAISE NOTICE 'employee was put in danger';
-    PERFORM put_employee_in_danger(employee_id);
   ELSE 
     RAISE NOTICE 'employee did nothing!!';
+  END IF;
+
+  IF floor(random() * (100+1))::int < 
+      (SELECT MAX(m.dangerlevel) 
+      FROM moon m 
+      INNER JOIN expedition e ON e.moonname = m.name 
+      WHERE e.id = v_expedition_id) THEN
+
+    RAISE NOTICE 'employee was put in danger';
+    PERFORM put_employee_in_danger(employee_id);
+    
   END IF;
   RETURN TRUE;
 END
