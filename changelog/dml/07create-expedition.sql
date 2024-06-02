@@ -90,12 +90,74 @@ RETURNS TRIGGER
 LANGUAGE 'plpgsql'
 AS $FUNCTION$
 DECLARE
-  c_employee CURSOR FOR SELECT * 
-                        FROM Employee em 
-                        JOIN Expedition ex 
-                        ON ex.ShipID = em.ShipID
-                        WHERE ex.ID = OLD.ID; 
-BEGIN
+  c_employee      CURSOR FOR SELECT em.ID
+                              FROM Employee em 
+                              JOIN Expedition ex 
+                              ON ex.ShipID = em.ShipID
+                              WHERE ex.ID = OLD.ID; 
+  c_scrap         REFCURSOR;
 
+  v_employee_id   BIGINT;
+  v_scrap_row     RECORD;
+
+  v_new_exp_value int8;
+  v_danger_level  int4;
+
+  v_employee_exp  int8;
+  v_new_rank      varchar(32);
+BEGIN
+  OPEN c_employee;
+  LOOP
+    FETCH c_employee INTO v_employee_id;
+    EXIT WHEN NOT FOUND;
+    
+    v_new_exp_value := 0;
+    OPEN c_scrap FOR SELECT * 
+                     FROM Scrap 
+                     WHERE EmployeeID = v_employee_id;
+    LOOP
+      FETCH c_scrap INTO v_scrap_row;
+      EXIT WHEN NOT FOUND;
+      
+      SELECT DangerLevel 
+      INTO v_danger_level 
+      FROM Moon 
+      WHERE name = v_scrap_row.MoonName;
+      
+      v_new_exp_value := v_new_exp_value + (v_scrap_row.Value/2)::int8 + (v_danger_level/5)::int8;
+    END LOOP;
+    CLOSE c_scrap;
+
+    UPDATE Employee 
+    SET Experience = v_new_exp_value 
+    WHERE ID = v_employee_id;
+   
+  END LOOP;
+  CLOSE c_employee;
+
+  OPEN c_employee;
+  LOOP
+    FETCH c_employee INTO v_employee_id;
+    EXIT WHEN NOT FOUND;
+
+    SELECT Experience 
+    INTO v_employee_exp 
+    FROM Employee 
+    WHERE ID = v_employee_id;
+
+    SELECT RankName
+    INTO v_new_rank
+    FROM Rank 
+    WHERE RequiredScore < v_employee_exp
+    ORDER BY RequiredScore DESC
+    LIMIT 1;
+
+    UPDATE Employee 
+    SET Rank = v_new_rank
+    WHERE ID = v_employee_id;
+
+  END LOOP;
+  CLOSE c_employee;
+  RETURN OLD;
 END
 $FUNCTION$;

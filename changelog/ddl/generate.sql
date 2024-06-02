@@ -7,7 +7,8 @@ CREATE TABLE Employee (
   HeartRate       int2 NOT NULL, 
   Health          int2 NOT NULL,
   ShipID          int8 NOT NULL, 
-  Rank            varchar(32) NOT NULL, 
+  Rank            varchar(32) NOT NULL,
+  Experience      int8 NOT NULL,
   PRIMARY KEY (ID));
 CREATE TABLE Ship (
   ID            BIGSERIAL NOT NULL, 
