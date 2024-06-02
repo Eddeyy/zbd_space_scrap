@@ -130,11 +130,27 @@ CREATE OR REPLACE FUNCTION put_employee_in_danger(employee_id BIGINT)
 RETURNS VOID
 LANGUAGE 'plpgsql'
 AS $FUNCTION$  
+DECLARE
+    v_damage_value  INTEGER;
 BEGIN
+  v_damage_value := ceil(random() * (20-10+1)+10)::INT;
   UPDATE Employee
   SET heartrate = 
-  CASE WHEN heartrate < 200 AND heartrate > 0
-  THEN heartrate + 20 ELSE 0 END
+    CASE 
+      WHEN heartrate + 20 < 200 AND heartrate > 0 
+        THEN heartrate + 20 
+        ELSE 0 
+    END,
+  HEALTH = 
+    CASE 
+      WHEN HEARTRATE + 20 > 200 THEN 0
+      WHEN ceil(random() * 100 + 1)::INT < 30 THEN 
+        CASE 
+          WHEN HEALTH - v_damage_value > 0 THEN HEALTH - v_damage_value
+          ELSE 0
+        END
+      ELSE HEALTH
+    END
   WHERE ID = employee_id;
 END
 $FUNCTION$;

@@ -32,14 +32,14 @@ INSERT INTO tools (id, name, durability, energy, shipid) VALUES (default, 'Ladde
 INSERT INTO tools (id, name, durability, energy, shipid) VALUES (default, 'Wrench', 3, 1, 2);
 
 
-INSERT INTO employee (id, name, surname, dateofbirth, joindate, heartrate, shipid, rank) VALUES (default, 'Maciej', 'Tomczuk', to_date('16-10-2001', 'DD-MM-YYYY'), to_date('20-12-2023', 'DD-MM-YYYY'), 120, 1, 'Intern');
-INSERT INTO employee (id, name, surname, dateofbirth, joindate, heartrate, shipid, rank) VALUES (default, 'Adam', 'Wysocki', to_date('4-5-2001', 'DD-MM-YYYY'), to_date('20-12-2023', 'DD-MM-YYYY'), 105, 1, 'Boss');
+INSERT INTO employee (id, name, surname, dateofbirth, joindate, heartrate, health, shipid, rank) VALUES (default, 'Maciej', 'Tomczuk', to_date('16-10-2001', 'DD-MM-YYYY'), to_date('20-12-2023', 'DD-MM-YYYY'), 90, 100, 1, 'Intern');
+INSERT INTO employee (id, name, surname, dateofbirth, joindate, heartrate, health, shipid, rank) VALUES (default, 'Adam', 'Wysocki', to_date('4-5-2001', 'DD-MM-YYYY'), to_date('20-12-2023', 'DD-MM-YYYY'), 90, 100, 1, 'Boss');
 
-INSERT INTO employee (id, name, surname, dateofbirth, joindate, heartrate, shipid, rank) VALUES (default, 'Bartosz', 'Słomowicz', to_date('12-5-2001', 'DD-MM-YYYY'), to_date('20-12-2023', 'DD-MM-YYYY'), 160, 2, 'Leader');
-INSERT INTO employee (id, name, surname, dateofbirth, joindate, heartrate, shipid, rank) VALUES (default, 'Szymon', 'Ludwiniak', to_date('15-12-2000', 'DD-MM-YYYY'), to_date('21-12-2023', 'DD-MM-YYYY'), 95, 2, 'Leader');
+INSERT INTO employee (id, name, surname, dateofbirth, joindate, heartrate, health, shipid, rank) VALUES (default, 'Bartosz', 'Słomowicz', to_date('12-5-2001', 'DD-MM-YYYY'), to_date('20-12-2023', 'DD-MM-YYYY'), 90, 100, 2, 'Leader');
+INSERT INTO employee (id, name, surname, dateofbirth, joindate, heartrate, health, shipid, rank) VALUES (default, 'Szymon', 'Ludwiniak', to_date('15-12-2000', 'DD-MM-YYYY'), to_date('21-12-2023', 'DD-MM-YYYY'), 90, 100, 2, 'Leader');
 
-INSERT INTO employee (id, name, surname, dateofbirth, joindate, heartrate, shipid, rank) VALUES (default, 'Arkadiusz', 'Pytka', to_date('12-5-2001', 'DD-MM-YYYY'), to_date('20-12-2023', 'DD-MM-YYYY'), 160, 3, 'Boss');
-INSERT INTO employee (id, name, surname, dateofbirth, joindate, heartrate, shipid, rank) VALUES (default, 'Dmitry', 'Goltstein', to_date('15-12-2000', 'DD-MM-YYYY'), to_date('21-12-2023', 'DD-MM-YYYY'), 95, 3, 'Boss');
+INSERT INTO employee (id, name, surname, dateofbirth, joindate, heartrate, health, shipid, rank) VALUES (default, 'Arkadiusz', 'Pytka', to_date('12-5-2001', 'DD-MM-YYYY'), to_date('20-12-2023', 'DD-MM-YYYY'), 90, 100, 3, 'Boss');
+INSERT INTO employee (id, name, surname, dateofbirth, joindate, heartrate, health, shipid, rank) VALUES (default, 'Dmitry', 'Goltstein', to_date('15-12-2000', 'DD-MM-YYYY'), to_date('21-12-2023', 'DD-MM-YYYY'), 90, 100, 3, 'Boss');
 
 
 INSERT INTO material (name, density, value) VALUES ('Lead', 12, 0.2);

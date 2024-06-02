@@ -5,6 +5,7 @@ CREATE TABLE Employee (
   DateOfBirth     date NOT NULL, 
   JoinDate        date NOT NULL, 
   HeartRate       int2 NOT NULL, 
+  Health          int2 NOT NULL,
   ShipID          int8 NOT NULL, 
   Rank            varchar(32) NOT NULL, 
   PRIMARY KEY (ID));
