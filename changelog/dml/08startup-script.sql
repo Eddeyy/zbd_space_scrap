@@ -8,4 +8,9 @@ BEFORE UPDATE OF power ON ship_engine
 FOR EACH ROW
 EXECUTE FUNCTION round_engine_power();
 
+CREATE OR REPLACE TRIGGER finish_expedition_trigger
+AFTER DELETE ON Excavation_Event
+FOR EACH ROW
+EXECUTE FUNCTION finish_expedition(); 
+
 SELECT cron.schedule('weather-update', '* * * * *', 'SELECT * FROM change_weather()');
