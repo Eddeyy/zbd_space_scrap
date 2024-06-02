@@ -16,8 +16,7 @@ BEGIN
     RETURN FALSE;
   END IF;
 
-  INSERT INTO Expedition (DateOfDeparture, ShipID, MoonName) VALUES (CURRENT_DATE, v_ship_id, moon_name);
-  PERFORM start_ship_flight(v_ship_id, moon_name);
+  INSERT INTO Expedition (ShipID, MoonName) VALUES (v_ship_id, moon_name);
 
   RETURN TRUE;
 END

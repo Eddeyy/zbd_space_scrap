@@ -58,7 +58,7 @@ BEGIN
   WHERE ExpeditionID = v_expedition_id 
   AND EmployeeID = employee_id;
 
-  IF v_event_count > 7 THEN
+  IF v_event_count > 7 OR v_expedition_id IS NULL THEN
     PERFORM cron.unschedule(format('employee-%s-excavation', employee_id));
 
     IF update_expedition_status(v_expedition_id) THEN
@@ -68,7 +68,7 @@ BEGIN
     RETURN TRUE;
   END IF;
 
-  IF (SELECT heartrate FROM Employee WHERE ID = employee_id) = 0 THEN
+  IF (SELECT HEALTH FROM Employee WHERE ID = employee_id) = 0 THEN
     RAISE NOTICE 'employee is dead';
     PERFORM cron.unschedule(format('employee-%s-excavation', employee_id));
     RETURN FALSE;
