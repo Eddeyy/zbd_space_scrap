@@ -61,7 +61,7 @@ BEGIN
   IF v_event_count > 7 THEN
     PERFORM cron.unschedule(format('employee-%s-excavation', employee_id));
 
-    IF is_expedition_done(v_expedition_id) THEN
+    IF update_expedition_status(v_expedition_id) THEN
       DELETE FROM Excavation_Event WHERE ExpeditionID = v_expedition_id;
     END IF;
 
