@@ -14,3 +14,18 @@ BEGIN
     return NEW;
 END;
 $FUNCTION$;
+
+CREATE OR REPLACE FUNCTION round_engine_power()
+RETURNS TRIGGER
+LANGUAGE 'plpgsql'
+AS $FUNCTION$
+BEGIN
+    IF NEW.power > 1.0 THEN
+        NEW.power := 1.0;
+    END IF;
+    IF NEW.power < 0.0 THEN
+        NEW.power := 0.0;
+    END IF;
+    RETURN NEW;
+END;
+$FUNCTION$;
