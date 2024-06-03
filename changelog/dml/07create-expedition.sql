@@ -1,3 +1,12 @@
+CREATE OR REPLACE FUNCTION is_target_company(moon_name VARCHAR(32))
+RETURNS BOOLEAN
+LANGUAGE 'plpgsql'
+AS $FUNCTION$
+  BEGIN
+    RETURN moon_name = 'Gordion';
+  END
+$FUNCTION$;
+
 CREATE OR REPLACE FUNCTION create_expedition(employee_id BIGINT, moon_name VARCHAR(32))
 RETURNS BOOLEAN
 LANGUAGE 'plpgsql'
@@ -5,7 +14,7 @@ AS $FUNCTION$
 DECLARE
   v_ship_id INTEGER;
 BEGIN
-  IF NOT is_employee_decisive(employee_id) THEN
+  IF NOT is_employee_decisive(employee_id) OR is_target_company(moon_name) THEN
     RETURN FALSE;
   END IF;
 
