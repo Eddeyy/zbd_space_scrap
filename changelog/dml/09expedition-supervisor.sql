@@ -9,12 +9,12 @@ DECLARE
 
 BEGIN
 
-    RAISE NOTICE 'CHECKING FOR PENDING EXPEDITIONS...';
+    -- RAISE NOTICE 'CHECKING FOR PENDING EXPEDITIONS...';
 
     FOR v_ship_id IN SELECT ID FROM SHIP
     LOOP
     
-        RAISE NOTICE 'LOOKING AT SHIP %...', v_ship_id;
+        -- RAISE NOTICE 'LOOKING AT SHIP %...', v_ship_id;
 
         CONTINUE WHEN EXISTS (
             SELECT 1 FROM EXPEDITION
@@ -28,7 +28,7 @@ BEGIN
         LIMIT 1;
 
         IF FOUND THEN
-            RAISE NOTICE 'STARTING SHIP %...', v_ship_id;
+            -- RAISE NOTICE 'STARTING SHIP %...', v_ship_id;
             UPDATE EXPEDITION SET DATEOFDEPARTURE=CURRENT_DATE WHERE ID = v_expedition_record.id;
             PERFORM start_ship_flight(v_ship_id, v_expedition_record.MOONNAME);
         END IF;
