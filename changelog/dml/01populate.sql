@@ -10,12 +10,12 @@ INSERT INTO rank (rankname, requiredscore) VALUES ('Employee', 100);
 INSERT INTO rank (rankname, requiredscore) VALUES ('Leader', 200);
 INSERT INTO rank (rankname, requiredscore) VALUES ('Boss', 500);
 
-INSERT INTO ship (id, maxload, maxfuel, maxvolume, load, fuel, volume, coordx, coordy, coordz) VALUES (default, 2000, 600, 5000, 200, 500, 2000, 21, 37, 60);
-INSERT INTO ship (id, maxload, maxfuel, maxvolume, load, fuel, volume, coordx, coordy, coordz) VALUES (default, 2000, 100, 5000, 100, 100, 2000, 21, 37, 60);
-INSERT INTO ship (id, maxload, maxfuel, maxvolume, load, fuel, volume, coordx, coordy, coordz) VALUES (default, 2000, 500, 5000, 400, 200, 2000, 21, 37, 60);
-INSERT INTO ship (id, maxload, maxfuel, maxvolume, load, fuel, volume, coordx, coordy, coordz) VALUES (default, 2000, 1000, 5000, 500, 1000, 2000, 21, 37, 60);
-INSERT INTO ship (id, maxload, maxfuel, maxvolume, load, fuel, volume, coordx, coordy, coordz) VALUES (default, 4000, 1000, 6000, 1000, 600, 1000, 2000, 3000, 4000);
-INSERT INTO ship (id, maxload, maxfuel, maxvolume, load, fuel, volume, coordx, coordy, coordz) VALUES (default, 1000, 1500, 700, 800, 200, 500, 1234, 8765, 9021);
+INSERT INTO ship (id, maxload, maxfuel, maxvolume, load, fuel, volume, coordx, coordy, coordz) VALUES (default, 2000, 600, 5000, 0, 500, 0, 21, 37, 60);
+INSERT INTO ship (id, maxload, maxfuel, maxvolume, load, fuel, volume, coordx, coordy, coordz) VALUES (default, 2000, 100, 5000, 0, 100, 0, 21, 37, 60);
+INSERT INTO ship (id, maxload, maxfuel, maxvolume, load, fuel, volume, coordx, coordy, coordz) VALUES (default, 2000, 500, 5000, 0, 200, 0, 21, 37, 60);
+INSERT INTO ship (id, maxload, maxfuel, maxvolume, load, fuel, volume, coordx, coordy, coordz) VALUES (default, 2000, 1000, 5000, 0, 1000, 0, 21, 37, 60);
+INSERT INTO ship (id, maxload, maxfuel, maxvolume, load, fuel, volume, coordx, coordy, coordz) VALUES (default, 4000, 1000, 6000, 0, 600, 0, 2000, 3000, 4000);
+INSERT INTO ship (id, maxload, maxfuel, maxvolume, load, fuel, volume, coordx, coordy, coordz) VALUES (default, 1000, 1500, 700, 0, 200, 0, 1234, 8765, 9021);
 
 
 INSERT INTO ship_engine (id, state, power, shipid) VALUES (default, 'Working', 0.3, 1);
@@ -50,6 +50,7 @@ INSERT INTO material (name, density, value) VALUES ('Aluminium', 3.5, 2);
 INSERT INTO moon (name, coordx, coordy, coordz, temperature, dangerlevel, weather) VALUES ('Sigma', 213, 973, 204, 25, 100, 'None');
 INSERT INTO moon (name, coordx, coordy, coordz, temperature, dangerlevel, weather) VALUES ('Tau', 1000, 1111, 60, 0, 5, 'Rainy');
 INSERT INTO moon (name, coordx, coordy, coordz, temperature, dangerlevel, weather) VALUES ('Beta', 21, 37, 60, 0, 5, 'None');
+INSERT INTO moon (name, coordx, coordy, coordz, temperature, dangerlevel, weather) VALUES ('Gordion', 0, 0, 0, 0, 0, 'None');
 
 INSERT INTO Scrap_Name (name) VALUES ('Axle');
 INSERT INTO Scrap_Name (name) VALUES ('Apparatus');
