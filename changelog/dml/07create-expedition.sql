@@ -190,21 +190,3 @@ BEGIN
   RETURN OLD;
 END
 $FUNCTION$;
-
-
-CREATE OR REPLACE FUNCTION add_physical_scrap_to_ship()
-RETURNS TRIGGER
-LANGUAGE 'plpgsql'
-AS $FUNCTION$
-BEGIN
-  UPDATE Ship 
-  SET Load = (SELECT sum(Weight) 
-              FROM Scrap 
-              WHERE ID = NEW.ShipID),
-      Volume = (SELECT sum(Volume) 
-                FROM Scrap 
-                WHERE ID = NEW.ShipID)
-  WHERE ID = NEW.ShipID;
-  RETURN NEW;
-END
-$FUNCTION$;

@@ -175,9 +175,18 @@ RETURNS TRIGGER
 LANGUAGE 'plpgsql'
 AS $FUNCTION$
 BEGIN
-    UPDATE EXPEDITION
-    SET totalScrap = totalScrap + NEW.VALUE
-    WHERE ID = NEW.EXPEDITIONID;
+  UPDATE EXPEDITION
+  SET totalScrap = totalScrap + NEW.VALUE
+  WHERE ID = NEW.EXPEDITIONID;
+  
+  UPDATE Ship 
+  SET Load = (SELECT sum(Weight) 
+            FROM Scrap 
+            WHERE ID = NEW.ShipID),
+    Volume = (SELECT sum(Volume) 
+              FROM Scrap 
+              WHERE ID = NEW.ShipID)
+  WHERE ID = NEW.ShipID;
   RETURN NEW;
 END;
 $FUNCTION$;
