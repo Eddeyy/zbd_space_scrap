@@ -30,6 +30,25 @@ BEGIN
 END
 $FUNCTION$;
 
+CREATE OR REPLACE FUNCTION reduce_heartrate(employee_id BIGINT, rate SMALLINT, decrease_rate SMALLINT)
+RETURNS VOID
+LANGUAGE 'plpgsql'
+AS $FUNCTION$
+BEGIN
+    IF rate != 90 THEN
+      IF rate - decrease_rate > 90 THEN
+        UPDATE EMPLOYEE
+        SET HEARTRATE = HEARTRATE - decrease_rate
+        WHERE ID = employee_id;
+      ELSIF rate -decrease_rate < 90 THEN
+        UPDATE EMPLOYEE
+        SET HEARTRATE = HEARTRATE = 90
+        WHERE ID = employee_id;
+      END IF;
+    END IF;
+END
+$FUNCTION$;
+
 
 CREATE OR REPLACE FUNCTION excavate(employee_id BIGINT)
 RETURNS BOOLEAN
@@ -40,7 +59,13 @@ DECLARE
   v_ship_id INTEGER;
   v_event_count INTEGER;
   v_expedition_id INTEGER;
+  v_employee_record RECORD;
 BEGIN
+  SELECT *
+  INTO v_employee_record
+  FROM EMPLOYEE
+  WHERE ID = employee_id;
+
   SELECT ShipID 
   INTO v_ship_id 
   FROM Employee 
@@ -70,7 +95,7 @@ BEGIN
   END IF;
 
   IF (SELECT HEALTH FROM Employee WHERE ID = employee_id) = 0 THEN
-    RAISE NOTICE '% is dead', (SELECT SURNAME FROM EMPLOYEE WHERE ID = employee_id LIMIT 1);
+    RAISE NOTICE '% is dead', (v_employee_record.surname);
     PERFORM cron.unschedule(format('employee-%s-excavation', employee_id));
     RETURN FALSE;
   END IF;
@@ -83,10 +108,12 @@ BEGIN
   v_event := floor(random() * 3);
 
   IF v_event = 0 THEN
-    RAISE NOTICE '% found scrap', (SELECT SURNAME FROM EMPLOYEE WHERE ID = employee_id LIMIT 1);
+    RAISE NOTICE '% found scrap', (v_employee_record.surname);
     PERFORM generate_scrap_for_employee(employee_id);
+    PERFORM reduce_heartrate(employee_id, v_employee_record.heartrate, 10::SMALLINT);
   ELSE 
-    RAISE NOTICE '% did nothing!!', (SELECT SURNAME FROM EMPLOYEE WHERE ID = employee_id LIMIT 1);
+    RAISE NOTICE '% did nothing!!', (v_employee_record.surname);
+    PERFORM reduce_heartrate(employee_id, v_employee_record.heartrate, 5::SMALLINT);
   END IF;
 
   IF floor(random() * (100+1))::int < 
@@ -95,7 +122,7 @@ BEGIN
       INNER JOIN expedition e ON e.moonname = m.name 
       WHERE e.id = v_expedition_id) THEN
 
-    RAISE NOTICE '% was put in danger', (SELECT SURNAME FROM EMPLOYEE WHERE ID = employee_id LIMIT 1);
+    RAISE NOTICE '% was put in danger', (v_employee_record.surname);
     PERFORM put_employee_in_danger(employee_id);
     
   END IF;
