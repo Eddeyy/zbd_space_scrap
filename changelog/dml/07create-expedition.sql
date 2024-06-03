@@ -76,7 +76,29 @@ CREATE OR REPLACE FUNCTION finish_expedition()
 RETURNS TRIGGER
 LANGUAGE 'plpgsql'
 AS $FUNCTION$
+DECLARE
+  v_ship_row  RECORD;
 BEGIN
+  RAISE NOTICE 'old: %', OLD;
+  SELECT * 
+  INTO v_ship_row
+  FROM Ship s 
+  JOIN Expedition ex 
+    ON ex.ShipID = s.ID
+  JOIN Excavation_Event ee
+    ON ee.ExpeditionID = ex.ID
+  WHERE ex.ID = OLD.ExpeditionID;
+
+  RAISE NOTICE '%', v_ship_row;
+
+  IF v_ship_row.Load > 0.75 * v_ship_row.MaxLoad 
+    OR v_ship_row.Volume > 0.75 * v_ship_row.MaxVolume
+  THEN
+    RAISE NOTICE 'sent ship % to Gordion', v_ship_row.ID; 
+    PERFORM start_ship_flight(v_ship_row.ID, 'Gordion');
+    RETURN OLD;
+  END IF;
+
   UPDATE Expedition 
   SET DateOfReturn = CURRENT_DATE
   WHERE ID = OLD.ExpeditionID;
@@ -178,10 +200,10 @@ BEGIN
   UPDATE Ship 
   SET Load = (SELECT sum(Weight) 
               FROM Scrap 
-              WHERE ID = NEW.ID),
+              WHERE ID = NEW.ShipID),
       Volume = (SELECT sum(Volume) 
                 FROM Scrap 
-                WHERE ID = NEW.ID)
+                WHERE ID = NEW.ShipID)
   WHERE ID = NEW.ShipID;
   RETURN NEW;
 END

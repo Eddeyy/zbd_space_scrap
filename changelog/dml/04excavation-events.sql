@@ -31,6 +31,11 @@ DECLARE
   v_chosen_material_row   RECORD;
   
   v_vol                   int4;
+
+  v_ship_load             numeric(10, 2);
+  v_ship_max_load         numeric(10, 2);
+  v_ship_volume           numeric(10, 2);
+  v_ship_max_volume       numeric(10, 2);
 BEGIN
   SELECT Name 
   INTO v_generated_scrap.Name 
@@ -92,6 +97,15 @@ BEGIN
   INTO v_generated_scrap.ShipID
   FROM Employee 
   WHERE Employee.id = employee_id;
+
+  SELECT MaxLoad, Load, MaxVolume, Volume 
+  INTO v_ship_max_load, v_ship_load, v_ship_max_volume, v_ship_volume
+  WHERE ID = v_generated_scrap.ShipID;
+
+  IF v_generated_scrap.Weight + v_ship_load > v_ship_max_load OR
+      v_generated_scrap.Volume + v_ship_volume > v_ship_max_volume THEN
+    RETURN;
+  END IF;
 
   INSERT INTO Scrap (name, 
                     weight, 

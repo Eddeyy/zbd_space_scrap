@@ -50,7 +50,7 @@ INSERT INTO material (name, density, value) VALUES ('Aluminium', 3.5, 2);
 INSERT INTO moon (name, coordx, coordy, coordz, temperature, dangerlevel, weather) VALUES ('Sigma', 213, 973, 204, 25, 100, 'None');
 INSERT INTO moon (name, coordx, coordy, coordz, temperature, dangerlevel, weather) VALUES ('Tau', 1000, 1111, 60, 0, 5, 'Rainy');
 INSERT INTO moon (name, coordx, coordy, coordz, temperature, dangerlevel, weather) VALUES ('Beta', 21, 37, 60, 0, 5, 'None');
-INSERT INTO moon (name, coordx, coordy, coordz, temperature, dangerlevel, weather) VALUES ('Beta', 0, 0, 0, 0, 0, 'None');
+INSERT INTO moon (name, coordx, coordy, coordz, temperature, dangerlevel, weather) VALUES ('Gordion', 0, 0, 0, 0, 0, 'None');
 
 INSERT INTO Scrap_Name (name) VALUES ('Axle');
 INSERT INTO Scrap_Name (name) VALUES ('Apparatus');

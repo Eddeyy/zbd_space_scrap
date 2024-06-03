@@ -44,7 +44,11 @@ BEGIN
             AND DATEOFDEPARTURE IS NOT NULL 
             AND DATEOFRETURN IS NULL;
         IF FOUND THEN
-            PERFORM start_excavation(ship_id);
+            IF (v_moon_row.name = 'Gordion') THEN
+                PERFORM start_selling(ship_id);
+            ELSE
+                PERFORM start_excavation(ship_id);
+            END IF;
         END IF;
         RETURN;
     END IF;
