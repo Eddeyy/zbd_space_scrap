@@ -18,4 +18,9 @@ AFTER UPDATE OF DateOfReturn ON Expedition
 FOR EACH ROW
 EXECUTE FUNCTION recalculate_exp();
 
+CREATE OR REPLACE TRIGGER total_scrap_trigger
+AFTER INSERT ON Scrap
+FOR EACH ROW
+EXECUTE FUNCTION total_scrap();
+
 SELECT cron.schedule('weather-update', '* * * * *', 'SELECT * FROM change_weather()');
