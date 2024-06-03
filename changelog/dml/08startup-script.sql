@@ -11,6 +11,11 @@ EXECUTE FUNCTION round_engine_power();
 CREATE OR REPLACE TRIGGER finish_expedition_trigger
 AFTER DELETE ON Excavation_Event
 FOR EACH ROW
-EXECUTE FUNCTION finish_expedition(); 
+EXECUTE FUNCTION finish_expedition();
+
+CREATE OR REPLACE TRIGGER recalculate_exp_trigger
+AFTER UPDATE OF DateOfReturn ON Expedition
+FOR EACH ROW
+EXECUTE FUNCTION recalculate_exp();
 
 SELECT cron.schedule('weather-update', '* * * * *', 'SELECT * FROM change_weather()');
