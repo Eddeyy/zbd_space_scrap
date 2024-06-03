@@ -85,6 +85,7 @@ BEGIN
     JOIN Ship sh ON sh.ID = ex.ShipID
     JOIN Employee em ON em.ShipID = sh.ID
     WHERE em.ID = employee_id
+    AND ex.DateOfDeparture IS NOT NULL
     AND ex.DateOfReturn IS NULL;
 
   SELECT ShipID 

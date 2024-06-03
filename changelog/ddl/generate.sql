@@ -51,7 +51,7 @@ CREATE TABLE Tools (
   PRIMARY KEY (ID));
 CREATE TABLE Expedition (
   ID                  BIGSERIAL NOT NULL, 
-  DateOfDeparture     date NOT NULL, 
+  DateOfDeparture     date, 
   DateOfReturn        date, 
   TotalScrap          numeric(8, 2), 
   ShipID              int8 NOT NULL, 

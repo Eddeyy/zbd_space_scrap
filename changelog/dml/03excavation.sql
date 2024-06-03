@@ -50,6 +50,7 @@ BEGIN
   INTO v_expedition_id 
   FROM Expedition
   WHERE ShipID = v_ship_id 
+  AND DateOfDeparture IS NOT NULL
   AND DateOfReturn IS NULL;
 
   SELECT EventCount
@@ -58,7 +59,7 @@ BEGIN
   WHERE ExpeditionID = v_expedition_id 
   AND EmployeeID = employee_id;
 
-  IF v_event_count > 7 THEN
+  IF v_event_count IS NULL OR v_event_count > 7 OR v_expedition_id IS NULL THEN
     PERFORM cron.unschedule(format('employee-%s-excavation', employee_id));
 
     IF update_expedition_status(v_expedition_id) THEN
@@ -68,8 +69,8 @@ BEGIN
     RETURN TRUE;
   END IF;
 
-  IF (SELECT heartrate FROM Employee WHERE ID = employee_id) = 0 THEN
-    RAISE NOTICE 'employee is dead';
+  IF (SELECT HEALTH FROM Employee WHERE ID = employee_id) = 0 THEN
+    RAISE NOTICE '% is dead', (SELECT SURNAME FROM EMPLOYEE WHERE ID = employee_id LIMIT 1);
     PERFORM cron.unschedule(format('employee-%s-excavation', employee_id));
     RETURN FALSE;
   END IF;
@@ -82,10 +83,10 @@ BEGIN
   v_event := floor(random() * 3);
 
   IF v_event = 0 THEN
-    RAISE NOTICE 'employee found scrap';
+    RAISE NOTICE '% found scrap', (SELECT SURNAME FROM EMPLOYEE WHERE ID = employee_id LIMIT 1);
     PERFORM generate_scrap_for_employee(employee_id);
   ELSE 
-    RAISE NOTICE 'employee did nothing!!';
+    RAISE NOTICE '% did nothing!!', (SELECT SURNAME FROM EMPLOYEE WHERE ID = employee_id LIMIT 1);
   END IF;
 
   IF floor(random() * (100+1))::int < 
@@ -94,7 +95,7 @@ BEGIN
       INNER JOIN expedition e ON e.moonname = m.name 
       WHERE e.id = v_expedition_id) THEN
 
-    RAISE NOTICE 'employee was put in danger';
+    RAISE NOTICE '% was put in danger', (SELECT SURNAME FROM EMPLOYEE WHERE ID = employee_id LIMIT 1);
     PERFORM put_employee_in_danger(employee_id);
     
   END IF;
@@ -117,7 +118,7 @@ BEGIN
   INTO v_expedition_id 
   FROM Expedition
   WHERE ShipID = ship_id
-  AND DateOfReturn IS NULL;
+  AND DateOfDeparture IS NOT NULL AND DateOfReturn IS NULL;
 
   OPEN c_employee_id;
   LOOP

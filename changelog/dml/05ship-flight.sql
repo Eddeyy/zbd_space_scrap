@@ -38,7 +38,14 @@ BEGIN
             coordz = v_moon_row.coordz
         WHERE id = ship_id;
         PERFORM cron.unschedule(format('ship-%s-flight', ship_id));
-        PERFORM start_excavation(ship_id);
+        PERFORM ID 
+            FROM EXPEDITION 
+            WHERE SHIPID=ship_id 
+            AND DATEOFDEPARTURE IS NOT NULL 
+            AND DATEOFRETURN IS NULL;
+        IF FOUND THEN
+            PERFORM start_excavation(ship_id);
+        END IF;
         RETURN;
     END IF;
 
