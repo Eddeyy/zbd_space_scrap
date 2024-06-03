@@ -16,7 +16,7 @@ BEGIN
     RETURN FALSE;
   END IF;
 
-  INSERT INTO Expedition (ShipID, MoonName) VALUES (v_ship_id, moon_name);
+  INSERT INTO Expedition (ShipID, MoonName, TotalScrap) VALUES (v_ship_id, moon_name, 0.00);
 
   RETURN TRUE;
 END
@@ -154,7 +154,7 @@ BEGIN
     SELECT RankName
     INTO v_new_rank
     FROM Rank 
-    WHERE RequiredScore < v_employee_exp
+    WHERE RequiredScore <= v_employee_exp
     ORDER BY RequiredScore DESC
     LIMIT 1;
 
