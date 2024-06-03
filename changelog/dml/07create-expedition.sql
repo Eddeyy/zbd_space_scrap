@@ -91,6 +91,7 @@ BEGIN
 END
 $FUNCTION$;
 
+
 CREATE OR REPLACE FUNCTION recalculate_exp()
 RETURNS TRIGGER
 LANGUAGE 'plpgsql'
@@ -165,5 +166,23 @@ BEGIN
   END LOOP;
   CLOSE c_employee;
   RETURN OLD;
+END
+$FUNCTION$;
+
+
+CREATE OR REPLACE FUNCTION add_physical_scrap_to_ship()
+RETURNS TRIGGER
+LANGUAGE 'plpgsql'
+AS $FUNCTION$
+BEGIN
+  UPDATE Ship 
+  SET Load = (SELECT sum(Weight) 
+              FROM Scrap 
+              WHERE ID = NEW.ID),
+      Volume = (SELECT sum(Volume) 
+                FROM Scrap 
+                WHERE ID = NEW.ID)
+  WHERE ID = NEW.ShipID;
+  RETURN NEW;
 END
 $FUNCTION$;
